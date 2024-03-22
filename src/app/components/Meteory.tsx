@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 interface UTCTime {
   date: string;
@@ -76,6 +77,20 @@ function start_date() {
   return formattedDate;
 }
 function Meteory(props: PROPS) {
+  // Variable para forzar la re-renderización
+const [triggerRender, setTriggerRender] = useState(false);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      // Actualizar la cuenta regresiva
+      // ...
+  
+      // Forzar la re-renderización del componente
+      setTriggerRender(prevTriggerRender => !prevTriggerRender);
+    }, 60000); // Cada 60000 milisegundos (1 minuto)
+  
+    // Limpiar el intervalo al desmontar el componente
+    return () => clearInterval(interval);
+  }, [])
   const getNeoData: NEO = props.getNeoData;
   const neos = Object.values(getNeoData.near_earth_objects).flatMap(
     (dateNEOs) => Object.values(dateNEOs)
