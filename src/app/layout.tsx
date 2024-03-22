@@ -5,8 +5,8 @@ import "./globals.css";
 const Space = Space_Mono({ subsets: ["latin"], weight: ['400', '700'] });
 
 export const metadata: Metadata = {
-  title: "Power Struggle",
-  description: "Politica Global",
+  title: "Api Nasa",
+  description: "pagina para mostrar imagenes y datos de la nasa",
 };
 
 export default function RootLayout({
