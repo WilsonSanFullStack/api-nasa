@@ -1,4 +1,4 @@
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 import Meteory from "../components/Meteory";
 
 function start_date() {
@@ -31,7 +31,11 @@ async function getNeo() {
       }`
     );
     const data = await res.json();
-    revalidatePath("/");
+    revalidateTag(`${
+      process.env.url
+    }start_date=${start_date()}&end_date=${start_date()}&api_key=${
+      process.env.api_key
+    }`);
     return data;
   } catch (error) {
     console.log(error);
