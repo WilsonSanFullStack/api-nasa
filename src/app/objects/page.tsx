@@ -1,6 +1,7 @@
-import { revalidateTag } from "next/cache";
 import Meteory from "../components/Meteory";
+import { GetServerSideProps } from "next";
 
+//function for start date
 function start_date() {
   const today = new Date();
   const year = today.getFullYear();
@@ -10,17 +11,17 @@ function start_date() {
   const formattedDate = `${year}-${month}-${day}`;
   return formattedDate;
 }
-function end_date() {
-  const today = new Date();
-  today.setDate(today.getDate() + 7);
+// function end_date() {
+//   const today = new Date();
+//   today.setDate(today.getDate() + 7);
 
-  const year = today.getFullYear();
-  const month = String(today.getMonth() + 1).padStart(2, "0");
-  const day = String(today.getDate()).padStart(2, "0");
+//   const year = today.getFullYear();
+//   const month = String(today.getMonth() + 1).padStart(2, "0");
+//   const day = String(today.getDate()).padStart(2, "0");
 
-  const formattedDate = `${year}-${month}-${day}`;
-  return formattedDate;
-}
+//   const formattedDate = `${year}-${month}-${day}`;
+//   return formattedDate;
+// }
 async function getNeo() {
   try {
     const res = await fetch(
@@ -28,25 +29,47 @@ async function getNeo() {
         process.env.url
       }start_date=${start_date()}&end_date=${start_date()}&api_key=${
         process.env.api_key
-      }`
+      }`,
+      {
+        next: {
+          tags: [
+            `${
+              process.env.url
+            }start_date=${start_date()}&end_date=${start_date()}&api_key=${
+              process.env.api_key
+            }`,
+          ],
+        },
+      }
     );
     const data = await res.json();
-    revalidateTag(`${
-      process.env.url
-    }start_date=${start_date()}&end_date=${start_date()}&api_key=${
-      process.env.api_key
-    }`);
     return data;
   } catch (error) {
     console.log(error);
   }
 }
 
+// // Función GetServerSideProps para obtener los datos
+// export const getServerSideProps: GetServerSideProps = async () => {
+//   const data = await getNeo();
+
+//   return {
+//     props: {
+//       data,
+//     },
+//   };
+// };
 export default async function page() {
-  const getNeoData = await getNeo();
+  // console.log(props); //{ params: {}, searchParams: {} }
+  const data = await getNeo();
+  console.log(data); // undefined
+  // console.log(props);
+  // console.log(props.params); //{}
+  // console.log(props.searchParams); //{}
   return (
     <main className="mt-12">
-      <Meteory getNeoData={getNeoData} />
+      <Meteory datos={data} />
     </main>
   );
 }
+// export { GetServerSideProps };

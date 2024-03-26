@@ -2,71 +2,6 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-interface UTCTime {
-  date: string;
-  time: string;
-}
-
-interface LocalTimeOffset {
-  minutes: number;
-}
-
-const utcDate: UTCTime = {
-  date: "2024-03-22",
-  time: "10:32",
-};
-
-const offsetInMinutes: LocalTimeOffset = {
-  minutes: -5,
-};
-interface NEO {
-  links: {
-    self: string;
-    next: string;
-    prev: string;
-  };
-  element_count: number;
-  near_earth_objects: {
-    [date: string]: NEOsByDate;
-  };
-}
-
-interface NEOsByDate {
-  [id: string]: NEODetails;
-}
-interface CloseApproachData {
-  close_approach_date: string;
-  close_approach_date_full: string;
-  epoch_date_close_approach: number;
-  relative_velocity: {
-    kilometers_per_second: number;
-    kilometers_per_hour: number;
-  };
-  miss_distance: {
-    kilometers: number;
-    lunar_distances: number;
-  };
-  orbiting_body: string;
-}
-interface NEODetails {
-  id: string;
-  name: string;
-  nasa_jpl_url: string;
-  absolute_magnitude_h: number;
-  estimated_diameter: {
-    kilometers: {
-      estimated_diameter_min: number;
-      estimated_diameter_max: number;
-    };
-  };
-  is_potentially_hazardous_asteroid: boolean;
-  close_approach_data: [CloseApproachData];
-  is_sentry_object: boolean;
-}
-interface PROPS {
-  getNeoData: NEO;
-}
-
 function start_date() {
   const today = new Date();
   const year = today.getFullYear();
@@ -76,22 +11,23 @@ function start_date() {
   const formattedDate = `${year}-${month}-${day}`;
   return formattedDate;
 }
-function Meteory(props: PROPS) {
+const offsetInMinutes: LocalTimeOffset = {
+  minutes: -5
+};
+function Meteory({ datos }: DATOS) {
   // Variable para forzar la re-renderización
-const [triggerRender, setTriggerRender] = useState(false);
+  const [triggerRender, setTriggerRender] = useState(false);
   useEffect(() => {
     const interval = setInterval(() => {
       // Actualizar la cuenta regresiva
-      // ...
-  
       // Forzar la re-renderización del componente
-      setTriggerRender(prevTriggerRender => !prevTriggerRender);
+      setTriggerRender((prevTriggerRender) => !prevTriggerRender);
     }, 60000); // Cada 60000 milisegundos (1 minuto)
-  
     // Limpiar el intervalo al desmontar el componente
     return () => clearInterval(interval);
-  }, [])
-  const getNeoData: NEO = props.getNeoData;
+  }, []);
+
+  const getNeoData: NEO = datos;
   const neos = Object.values(getNeoData.near_earth_objects).flatMap(
     (dateNEOs) => Object.values(dateNEOs)
   );
@@ -107,7 +43,7 @@ const [triggerRender, setTriggerRender] = useState(false);
   return (
     <div className="m-2 text-center">
       <h1 className="text-2xl font-bold text-center my-4 uppercase">
-        element near the earth according to today  date
+        element near the earth according to today date
       </h1>
       <h1>
         the objects counted for the day {start_date()} are:
@@ -119,8 +55,7 @@ const [triggerRender, setTriggerRender] = useState(false);
             const localDate = new Date(
               new Date(
                 item.close_approach_data[0].close_approach_date_full
-              ).getTime() +
-                offsetInMinutes.minutes * 60 * 60 * 1000
+              ).getTime() + (offsetInMinutes.minutes * 60 * 60 * 1000)
             );
             const formattedDate = localDate.toLocaleDateString("en-EN", {
               year: "numeric",
@@ -143,14 +78,19 @@ const [triggerRender, setTriggerRender] = useState(false);
                 : minutesDiff <= -15
                 ? "#f59e0b" //yellow
                 : "#ef4444"; // red
-                const hours = Math.floor((minutesDiff < 0 ? minutesDiff * -1: minutesDiff) / 60);
-                const minutes = (minutesDiff < 0 ? minutesDiff * -1: minutesDiff) % 60;
-                const isPast = minutesDiff  > 0;
+            const hours = Math.floor(
+              (minutesDiff < 0 ? minutesDiff * -1 : minutesDiff) / 60
+            );
+            const minutes =
+              (minutesDiff < 0 ? minutesDiff * -1 : minutesDiff) % 60;
+            const isPast = minutesDiff > 0;
             const prefix = isPast ? "step" : "missing";
-            const timeses = `${prefix} ${
-              hours < 0 ? hours * -1 : hours
-            } hour${hours !== -1 ? 's' : ''} and ${minutes < 0 ? minutes * -1 : minutes} minute${minutes !== -1 ? 's' : ''}`;
-            console.log(minutesDiff, item.name, timeses)
+            const timeses = `${prefix} ${hours < 0 ? hours * -1 : hours} hour${
+              hours !== -1 ? "s" : ""
+            } and ${minutes < 0 ? minutes * -1 : minutes} minute${
+              minutes !== -1 ? "s" : ""
+            }`;
+            console.log(minutesDiff, item.name, timeses);
             return (
               <div
                 key={item.id}
@@ -182,7 +122,6 @@ const [triggerRender, setTriggerRender] = useState(false);
                   style={{ backgroundColor: color }}
                 >
                   <h1 className="uppercase">{timeses}</h1>
-                  {/* <h2 className="mx-2">{minutesDiff}</h2> */}
                 </div>
 
                 <Link
