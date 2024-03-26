@@ -107,11 +107,11 @@ const [triggerRender, setTriggerRender] = useState(false);
   return (
     <div className="m-2 text-center">
       <h1 className="text-2xl font-bold text-center my-4 uppercase">
-        Elementos cercanos a la tierra segun la fecha de hoy
+        element near the earth according to today's date
       </h1>
       <h1>
-        Los elementos contados para el dia {start_date()} son:{" "}
-        {getNeoData && getNeoData.element_count}
+        the objects counted for the day {start_date()} are:
+        {neos && neos.length}
       </h1>
       <div className="grid movil:grid-cols-1 laptop:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-5">
         {neos &&
@@ -136,21 +136,21 @@ const [triggerRender, setTriggerRender] = useState(false);
             );
 
             const color =
-              minutesDiff >= 15
-                ? "#ef4444"
-                : minutesDiff >= 0
-                ? "#10b981"
+              minutesDiff >= 16
+                ? "#ef4444" //red
+                : minutesDiff >= 0 || minutesDiff >= -15
+                ? "#10b981" //green
                 : minutesDiff <= -15
-                ? "#f59e0b"
-                : "#ef4444";
-
-            const hours = Math.floor(minutesDiff / 60);
-            const minutes = minutesDiff % 60;
-            const isPast = minutesDiff > 0;
-            const prefix = isPast ? "HAN PASADO" : "FALTAN";
+                ? "#f59e0b" //yellow
+                : "#ef4444"; // red
+                const hours = Math.floor((minutesDiff < 0 ? minutesDiff * -1: minutesDiff) / 60);
+                const minutes = (minutesDiff < 0 ? minutesDiff * -1: minutesDiff) % 60;
+                const isPast = minutesDiff  > 0;
+            const prefix = isPast ? "step" : "missing";
             const timeses = `${prefix} ${
               hours < 0 ? hours * -1 : hours
-            } HORAS Y ${minutes < 0 ? minutes * -1 : minutes} MINUTOS`;
+            } hour${hours !== -1 ? 's' : ''} and ${minutes < 0 ? minutes * -1 : minutes} minute${minutes !== -1 ? 's' : ''}`;
+            console.log(minutesDiff, item.name, timeses)
             return (
               <div
                 key={item.id}

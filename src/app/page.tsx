@@ -1,48 +1,47 @@
-import ThemeToggle from "./components/tools/ThemeToggle";
-import Meteory from "./components/Meteory";
-
-function start_date() {
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = String(today.getMonth() + 1).padStart(2, "0"); // Se agrega 1 al mes ya que los meses van de 0 a 11
-  const day = String(today.getDate()).padStart(2, "0");
-
-  const formattedDate = `${year}-${month}-${day}`;
-  return formattedDate;
-}
-function end_date() {
-  const today = new Date();
-  today.setDate(today.getDate() + 7);
-
-  const year = today.getFullYear();
-  const month = String(today.getMonth() + 1).padStart(2, "0");
-  const day = String(today.getDate()).padStart(2, "0");
-
-  const formattedDate = `${year}-${month}-${day}`;
-  return formattedDate;
-}
-async function getNeo() {
-  try {
-    const res = await fetch(
-      `${
-        process.env.url
-      }start_date=${start_date()}&end_date=${start_date()}&api_key=${
-        process.env.api_key
-      }`
-    );
-    const data = await res.json();
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
-}
-
 export default async function Home() {
-  const getNeoData = await getNeo();
   return (
-    <main>
-      <ThemeToggle />
-      <Meteory getNeoData={getNeoData} />
+    <main className="mt-12">
+      <h1 className="text-center text-4xl uppercase font-bold">
+        observation center wasr
+      </h1>
+      <p className="text-center mx-44 font-semibold text-lg">
+        Using NASA's Api-Rest, this page was created with the idea of providing
+        information in real time "what NASA informs us" for all those people who
+        love astonomy or who have their telescopes and are thinking of entering
+        this worl. or simply those curious about nearby objects or photographs.
+      </p>
+      <div>
+        <h2 className="text-center text-2xl uppercase font-bold mt-4">
+          what you will find here
+        </h2>
+        <h3 className="text-center text-xl uppercase font-bold mt-4">
+          list of objects that orbit the earth or are near the earth
+        </h3>
+        <p className="text-center mx-44">
+          list of near-earth objects that NASA has under constant monitring.
+        </p>
+        <h4 className="text-center text-lg uppercase font-bold mt-4">
+          may have information such as:
+        </h4>
+        <section className="flex justify-center items-center m-4">
+          <ul className="list-inside">
+            <li className="list-decimal">name</li>
+            <li className="list-decimal">date full and time utc</li>
+            <li className="list-decimal">date full and time local</li>
+            <li className="list-decimal">
+              how much time passes or how much time has passed
+            </li>
+            <li className="list-decimal">link for view orbit</li>
+            <li className="list-decimal">abosulute magnitude h</li>
+            <li className="list-decimal">estimated diameter in kilometers</li>
+            <li className="list-decimal">is potentially hazardous asteroid</li>
+            <li className="list-decimal">relative velocity</li>
+            <li className="list-decimal">orbitting body</li>
+            <li className="list-decimal">is sentry object</li>
+          </ul>
+        </section>
+        
+      </div>
     </main>
   );
 }
