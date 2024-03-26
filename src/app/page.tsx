@@ -5,8 +5,8 @@ export default async function Home() {
         observation center wasr
       </h1>
       <p className="text-center mx-44 font-semibold text-lg">
-        Using NASA's Api-Rest, this page was created with the idea of providing
-        information in real time "what NASA informs us" for all those people who
+        Using NASA Api-Rest, this page was created with the idea of providing
+        information in real time (what NASA informs us) for all those people who
         love astonomy or who have their telescopes and are thinking of entering
         this worl. or simply those curious about nearby objects or photographs.
       </p>

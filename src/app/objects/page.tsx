@@ -38,7 +38,7 @@ async function getNeo() {
   }
 }
 
-export default async function Home() {
+export default async function page() {
   const getNeoData = await getNeo();
   return (
     <main className="mt-12">

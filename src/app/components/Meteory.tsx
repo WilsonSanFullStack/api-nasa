@@ -107,7 +107,7 @@ const [triggerRender, setTriggerRender] = useState(false);
   return (
     <div className="m-2 text-center">
       <h1 className="text-2xl font-bold text-center my-4 uppercase">
-        element near the earth according to today's date
+        element near the earth according to today  date
       </h1>
       <h1>
         the objects counted for the day {start_date()} are:
