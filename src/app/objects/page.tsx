@@ -1,5 +1,5 @@
 import Meteory from "../components/Meteory";
-import { GetServerSideProps } from "next";
+import { revalidatePath } from 'next/cache'
 
 //function for start date
 function start_date() {
@@ -48,28 +48,26 @@ async function getNeo() {
     console.log(error);
   }
 }
-
-// // Función GetServerSideProps para obtener los datos
-// export const getServerSideProps: GetServerSideProps = async () => {
-//   const data = await getNeo();
-
-//   return {
-//     props: {
-//       data,
-//     },
-//   };
-// };
 export default async function page() {
-  // console.log(props); //{ params: {}, searchParams: {} }
+
   const data = await getNeo();
-  console.log(data); // undefined
-  // console.log(props);
-  // console.log(props.params); //{}
-  // console.log(props.searchParams); //{}
+  const date1 = new Date(data.near_earth_objects[start_date()][0].close_approach_data[0].close_approach_date)
+  // Obtener la fecha actual en UTC
+const currentDateUTC = new Date();
+// Convertir la fecha actual a UTC y obtener solo la fecha (sin horas ni minutos)
+const currentDayUTC = new Date(currentDateUTC).toISOString().slice(0, 10);
+// Obtener el día de date1 en formato UTC
+const dayDate1 = date1.toISOString().slice(0, 10);
+// Comparar si los días son iguales
+const sameDay = currentDayUTC === dayDate1;
+// if para revalidar la ruta objects
+if (!sameDay) {
+  revalidatePath('/objects')
+}
+
   return (
     <main className="mt-12">
       <Meteory datos={data} />
     </main>
   );
 }
-// export { GetServerSideProps };

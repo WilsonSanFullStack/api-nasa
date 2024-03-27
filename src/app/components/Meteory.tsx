@@ -90,7 +90,7 @@ function Meteory({ datos }: DATOS) {
             } and ${minutes < 0 ? minutes * -1 : minutes} minute${
               minutes !== -1 ? "s" : ""
             }`;
-            console.log(minutesDiff, item.name, timeses);
+            // console.log(minutesDiff, item.name, timeses);
             return (
               <div
                 key={item.id}
