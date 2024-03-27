@@ -1,10 +1,12 @@
+import Pie from "./components/tools/Pie";
+
 export default async function Home() {
   return (
     <main className="mt-12">
       <h1 className="text-center text-4xl uppercase font-bold">
         observation center wasr
       </h1>
-      <p className="text-center mx-44 font-semibold text-lg">
+      <p className="text-center mx-44 font-semibold text-lg movil:mx-8">
         Using NASA Api-Rest, this page was created with the idea of providing
         information in real time (what NASA informs us) for all those people who
         love astonomy or who have their telescopes and are thinking of entering
@@ -17,7 +19,7 @@ export default async function Home() {
         <h3 className="text-center text-xl uppercase font-bold mt-4">
           list of objects that orbit the earth or are near the earth
         </h3>
-        <p className="text-center mx-44">
+        <p className="text-center mx-44 movil:mx-8">
           list of near-earth objects that NASA has under constant monitring.
         </p>
         <h4 className="text-center text-lg uppercase font-bold mt-4">
@@ -40,8 +42,8 @@ export default async function Home() {
             <li className="list-decimal">is sentry object</li>
           </ul>
         </section>
-        
       </div>
+      <Pie />
     </main>
   );
 }
