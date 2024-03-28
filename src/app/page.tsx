@@ -2,7 +2,7 @@ import Pie from "./components/tools/Pie";
 
 export default async function Home() {
   return (
-    <main className="mt-12">
+    <main className="mt-12 h-max mb-20">
       <h1 className="text-center text-4xl uppercase font-bold">
         observation center wasr
       </h1>

@@ -8,7 +8,7 @@ import Image from "next/image";
 
 export default function Pie() {
   return (
-    <div className="px-10 bg-slate-500 relative  h-20 min-w-full font-bold flex justify-center items-center">
+    <div className="px-10 bg-slate-500 fixed bottom-0 h-20 min-w-full font-bold flex justify-center items-center">
       <Image
         src="/logo circulo limpio.png"
         alt="logo"

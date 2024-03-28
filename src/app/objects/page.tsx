@@ -29,18 +29,7 @@ async function getNeo() {
         process.env.url
       }start_date=${start_date()}&end_date=${start_date()}&api_key=${
         process.env.api_key
-      }`,
-      {
-        next: {
-          tags: [
-            `${
-              process.env.url
-            }start_date=${start_date()}&end_date=${start_date()}&api_key=${
-              process.env.api_key
-            }`,
-          ],
-        },
-      }
+      }`
     );
     const data = await res.json();
     return data;
@@ -52,7 +41,7 @@ export default async function page() {
   const data = await getNeo();
   const date1 = new Date(data.near_earth_objects[start_date()][0].close_approach_data[0].close_approach_date)
   // Obtener la fecha actual en UTC
-  const currentDateUTC = new Date('2024-03-30');
+  const currentDateUTC = new Date();
   // Convertir la fecha actual a UTC y obtener solo la fecha (sin horas ni minutos)
   const currentDayUTC = new Date(currentDateUTC).toISOString().slice(0, 10);
   // Obtener el día de date1 en formato UTC
