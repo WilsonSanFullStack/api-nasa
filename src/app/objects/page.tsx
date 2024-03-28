@@ -50,7 +50,7 @@ export default async function page() {
   const sameDay = currentDayUTC === dayDate1;
   // if para revalidar la ruta objects
   if (!sameDay) {
-    console.log('me ejecuto')
+    console.log('me ejec')
   revalidatePath('/objects')
   }
 
