@@ -75,3 +75,12 @@ declare interface DATOS {
   datos: NEO
 }
 
+declare interface IMAGE {
+  date: string;
+  explanation: string;
+  hdurl: string;
+  media_type: string;
+  service_virsion: string;
+  title: string;
+  url: string;
+}

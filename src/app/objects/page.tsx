@@ -1,5 +1,5 @@
 import Meteory from "../components/Meteory";
-import { revalidatePath } from 'next/cache'
+import { revalidatePath } from "next/cache";
 
 //function for start date
 function start_date() {
@@ -26,10 +26,11 @@ async function getNeo() {
   try {
     const res = await fetch(
       `${
-        process.env.url
+        process.env.urlObjects
       }start_date=${start_date()}&end_date=${start_date()}&api_key=${
         process.env.api_key
-      }`, { cache: 'no-store' }
+      }`,
+      { cache: "no-store" }
     );
     const data = await res.json();
     return data;
@@ -39,7 +40,11 @@ async function getNeo() {
 }
 export default async function page() {
   const data = await getNeo();
-  const date1 = new Date(data.near_earth_objects[start_date()][0].close_approach_data[0].close_approach_date)
+  const date1 = new Date(
+    data.near_earth_objects[
+      start_date()
+    ][0].close_approach_data[0].close_approach_date
+  );
   // Obtener la fecha actual en UTC
   const currentDateUTC = new Date();
   // Convertir la fecha actual a UTC y obtener solo la fecha (sin horas ni minutos)
@@ -50,10 +55,9 @@ export default async function page() {
   const sameDay = currentDayUTC === dayDate1;
   // if para revalidar la ruta objects
   if (!sameDay) {
-    console.log('me ejec')
-  revalidatePath('/objects')
+    console.log("me ejec");
+    revalidatePath("/objects");
   }
-
 
   return (
     <main className="mt-12">
