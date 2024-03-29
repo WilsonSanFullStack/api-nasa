@@ -29,7 +29,7 @@ async function getNeo() {
         process.env.url
       }start_date=${start_date()}&end_date=${start_date()}&api_key=${
         process.env.api_key
-      }`
+      }`, { cache: 'no-store' }
     );
     const data = await res.json();
     return data;
