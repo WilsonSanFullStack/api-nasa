@@ -1,15 +1,15 @@
 // Interface for UTCTime
 declare interface UTCTime {
-  date: string | undefined;
-  time: string | undefined;
+  date: string;
+  time: string;
 }
 declare type LocalTimeOffset = {
-  minutes: number | undefined;
+  minutes: number;
 };
 
 // Interface for LocalTimeOffset
 declare interface LocalTimeOffset {
-  minutes: number | undefined;
+  minutes: number;
 }
 
 // **New:** Interface for API response error
@@ -39,9 +39,9 @@ declare interface NEODetails {
 
 // Interface for CloseApproachData (unchanged)
 declare interface CloseApproachData {
-  close_approach_date: string | undefined;
-  close_approach_date_full: string | undefined;
-  epoch_date_close_approach: number | undefined;
+  close_approach_date: string;
+  close_approach_date_full: string;
+  epoch_date_close_approach: number;
   relative_velocity: {
     kilometers_per_second: number | undefined;
     kilometers_per_hour: number | undefined;
@@ -78,8 +78,8 @@ declare interface DATOS {
 declare interface IMAGE {
   date: string | undefined;
   explanation: string | undefined;
-  hdurl: string | undefined;
-  media_type: string | undefined;
+  hdurl: string;
+  media_type: string;
   service_virsion: string | undefined;
   title: string | undefined;
   url: string | undefined;
