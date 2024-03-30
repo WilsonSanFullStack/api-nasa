@@ -42,6 +42,14 @@ export default async function Home() {
             <li className="list-decimal">is sentry object</li>
           </ul>
         </section>
+        <h3 className="text-center font-bold text-2xl uppercase">
+          Astronomy Picture of the day
+        </h3>
+        <p className="text-center mx-44 movil:mx-8">
+          Discover the cosmos Each day a different image or photograph of our
+          fascinating universe id featured, along with a brief explenation
+          written by a professional astronomer.
+        </p>
       </div>
       <Pie />
     </main>
