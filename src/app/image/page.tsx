@@ -21,16 +21,16 @@ export default async function page() {
       </h1>
       <div className="flex justify-center items-center">
         <h1 className="uppercase mx-2 font-bold">date:</h1>
-        <h2>{data.date}</h2>
+        <h2>{data?.date}</h2>
       </div>
       <div>
-        <h1 className="text-center font-bold text-2xl">{data.title}</h1>
+        <h1 className="text-center font-bold text-2xl">{data?.title}</h1>
       </div>
       <div className="m-2 text-justify">
-        <p>{data.explanation}</p>
+        <p>{data?.explanation}</p>
       </div>
       <div className="m-2">
-        <Image src={data.hdurl} alt={data.media_type} width={1920} height={1280} />
+        <Image src={data?.hdurl} alt={data?.media_type} width={1920} height={1280} />
       </div>
     </div>
   );
