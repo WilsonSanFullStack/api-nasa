@@ -1,6 +1,9 @@
+// importacion de components utilizados en un componente de server
 import Pie from "./components/tools/Pie";
-
+// declaracion de la funcion de componente asyncrona y exportacion de la misma 
 export default async function Home() {
+  // retornamos la funcion para hacer el renderizado de las propiedades y componentes de la misma
+  // aqui encontramos descripcion de todo lo que encontramos en la pagina 
   return (
     <main className="mt-12 h-max mb-24">
       <h1 className="text-center text-4xl uppercase font-bold">

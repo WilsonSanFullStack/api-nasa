@@ -1,5 +1,6 @@
+// importacion de herramientas
 import Image from "next/image";
-
+// declaracion de funcion asyncrona para el fetch de datos de la api.nada.gov
 async function getImage() {
   try {
     const res = await fetch(
@@ -12,8 +13,11 @@ async function getImage() {
     console.log(error);
   }
 }
+// declaracion de funcion de componente asyncrono 
 export default async function page() {
+  // ejecucion de getImage para asi utilizar la informacion de la api
   const data: IMAGE = await getImage();
+  // renderizado de data 
   return (
     <div className="mt-12">
       <h1 className="uppercase font-bold text-4xl text-center">

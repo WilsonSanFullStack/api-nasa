@@ -3,15 +3,6 @@ declare interface UTCTime {
   date: string;
   time: string;
 }
-declare type LocalTimeOffset = {
-  minutes: number;
-};
-
-// Interface for LocalTimeOffset
-declare interface LocalTimeOffset {
-  minutes: number;
-}
-
 // **New:** Interface for API response error
 declare interface ApiError {
   error: {
@@ -70,11 +61,11 @@ declare interface NEO {
     [date: string | undefined]: NEOsByDate;
   };
 }
-
+// interface para poder darle typos o extender los tipos de neo en data
 declare interface DATOS {
   datos: NEO
 }
-
+//  para darle types al fetch de la imagen del dia
 declare interface IMAGE {
   date: string | undefined;
   explanation: string | undefined;

@@ -1,19 +1,29 @@
+// identificamos el  componente como cliente
 "use client";
+// importamos las herramientas necesarias
 import Link from "next/link";
 import { useEffect, useState } from "react";
-
+// declaracion de la funcion start_date()
 function start_date() {
+  // casamos la fecha
   const today = new Date();
+  // sacamos el year
   const year = today.getFullYear();
+  // sacamos el mes
   const month = String(today.getMonth() + 1).padStart(2, "0"); // Se agrega 1 al mes ya que los meses van de 0 a 11
+  // sacamos el dia
   const day = String(today.getDate()).padStart(2, "0");
-
+  // formatiamos la fecha year-mes-dia y la retornamos
   const formattedDate = `${year}-${month}-${day}`;
   return formattedDate;
 }
-const offsetInMinutes: LocalTimeOffset = {
-  minutes: -5
-};
+// declaramos la constate getTimeZoneOffsetInMinutes y agregamos su type y la inicializamos la propiedad minutes en -5 para hacer referencia al meridiado en colombia
+function getTimezoneOffsetInMinutes() {
+  // sacamos la fecha 
+  const date = new Date();
+  return date.getTimezoneOffset();
+}
+// declaramos el componente funcional meteory con props datos
 function Meteory({ datos }: DATOS) {
   // Variable para forzar la re-renderización
   const [triggerRender, setTriggerRender] = useState(false);
@@ -26,11 +36,13 @@ function Meteory({ datos }: DATOS) {
     // Limpiar el intervalo al desmontar el componente
     return () => clearInterval(interval);
   }, []);
-
-  const getNeoData: NEO = datos;
+// declaramos getNeoData
+  const getNeoData = datos;
+  // declaramos neos que es una descompocion del array near_earth_objects
   const neos = Object.values(getNeoData?.near_earth_objects).flatMap(
     (dateNEOs) => Object.values(dateNEOs)
   );
+  // ordenamos los neos por fecha
   neos.sort((a: NEODetails, b: NEODetails) => {
     // Extract the dates for comparison
     const dateA = a.close_approach_data[0]?.close_approach_date_full;
@@ -39,7 +51,7 @@ function Meteory({ datos }: DATOS) {
     // Use Date object for proper comparison
     return new Date(dateA).getTime() - new Date(dateB).getTime();
   });
-
+// renderizamos el componentes 
   return (
     <div className="m-2 text-center">
       <h1 className="text-2xl font-bold text-center my-4 uppercase">
@@ -52,24 +64,42 @@ function Meteory({ datos }: DATOS) {
       <div className="grid movil:grid-cols-1 laptop:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-5">
         {neos &&
           neos.map((item: NEODetails) => {
-            const localDate = new Date(
-              new Date(
-                item?.close_approach_data[0]?.close_approach_date_full
-              ).getTime() + (offsetInMinutes?.minutes * 60 * 60 * 1000)
+            // ejecutamos la funcion getTimezoneOffsetInMinutes 
+            const timezoneOffset = getTimezoneOffsetInMinutes();
+            // declaramos y asignamos a localDate la fecha utc
+            let localDate = new Date(
+              new Date(item?.close_approach_data[0]?.close_approach_date_full)
             );
+            // verificamos si es positivo o negatico 
+            if (timezoneOffset >= 0) {
+              // Diferencia horaria positiva, restar la diferencia horaria para obtener la hora local
+              localDate = new Date(
+                localDate.getTime() - timezoneOffset * 60 * 1000
+              );
+            } else {
+              // Diferencia horaria negativa, sumar la diferencia horaria (en valor absoluto) para obtener la hora local
+              localDate = new Date(
+                localDate.getTime() + Math.abs(timezoneOffset) * 60 * 1000
+              );
+            }
+            // formatiamos la fecha como string
             const formattedDate = localDate.toLocaleDateString("en-EN", {
               year: "numeric",
               month: "short",
               day: "numeric",
               hour12: true,
             });
+            // formatiamos la hora como string
             const formattedTime = localDate.toLocaleTimeString("es-ES", {
               hour12: false,
             });
+            //? console.log('timeZoneOffset', timezoneOffset,'hora local',formattedDate+' '+formattedTime, 'name',item.name, 'hora utc',item?.close_approach_data[0]?.close_approach_date_full)
+            
+            // declaramos minutesDiff para verificar la diferencia en minutos y horas cuanto le hace falta  o hace cuanto paso el objeto 
             const minutesDiff = Math.floor(
               (Date.now() - localDate.getTime()) / (1000 * 60)
             );
-
+            // declaramos que se maneja segun minutesDiff si ya paso en rojo si no ha pasado en amarrillo y un hueco de 15 minutos antes y 15 minutos despues de haber pasado se pintara en verde
             const color =
               minutesDiff >= 16
                 ? "#ef4444" //red
@@ -78,13 +108,17 @@ function Meteory({ datos }: DATOS) {
                 : minutesDiff <= -15
                 ? "#f59e0b" //yellow
                 : "#ef4444"; // red
+                // declaramos y asignamos en hours las horas que faltan o han pasado 
             const hours = Math.floor(
               (minutesDiff < 0 ? minutesDiff * -1 : minutesDiff) / 60
             );
+            // declaramos y asignamos en minutos las horas que faltan o han pasado
             const minutes =
               (minutesDiff < 0 ? minutesDiff * -1 : minutesDiff) % 60;
+              // verificamos la afimacion para asignar step o missing segun sea el caso
             const isPast = minutesDiff > 0;
             const prefix = isPast ? "step" : "missing";
+            // formatiamos todo en timeses para renderizar
             const timeses = `${prefix} ${hours < 0 ? hours * -1 : hours} hour${
               hours !== -1 ? "s" : ""
             } and ${minutes < 0 ? minutes * -1 : minutes} minute${
@@ -125,9 +159,9 @@ function Meteory({ datos }: DATOS) {
                 </div>
 
                 <Link
-                  href={
-                    `${item?.nasa_jpl_url}&view=VOP`
-                  }
+                  href={`${item?.nasa_jpl_url}&view=VOP`}
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   <h1 className="text-emerald-500 cursor-pointer hover:text-amber-300 uppercase border border-black dark:bg-gray-700 dark:border-gray-400 m-0.5 p-0.5 rounded-lg">
                     view orbit click here
