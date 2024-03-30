@@ -1,5 +1,8 @@
-export default {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   images: {
-    domains: ['api.nasa.gov'],
+    unoptimized: true,
   },
 };
+
+export default nextConfig;
