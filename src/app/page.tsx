@@ -13,7 +13,7 @@ export default async function Home() {
         Using NASA Api-Rest, this page was created with the idea of providing
         information in real time (what NASA informs us) for all those people who
         love astonomy or who have their telescopes and are thinking of entering
-        this worl. or simply those curious about nearby objects or photographs.
+        this world. or simply those curious about nearby objects or photographs.
       </p>
       <div>
         <h2 className="text-center text-2xl uppercase font-bold mt-4">
